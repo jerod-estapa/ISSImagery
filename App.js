@@ -9,7 +9,8 @@ import {StyleSheet,
         Text, 
         View,
         ImageBackground,
-        AppRegistry
+        AppRegistry,
+        TouchableHighlight
         } from 'react-native';
 
 
@@ -49,7 +50,31 @@ const StationImages = [
 export default class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {index: 0};
+    this.state = {
+            index: 0,
+            imageWidth: null};
+  }
+
+  nextImage(event) {
+    const { index, imageWidth } = this.state,
+          X = event.nativeEvent.locationX,
+          delta = (X < imageWidth/2) ? -1 : +1;
+
+    let newIndex = (index + delta) % StationImages.length;
+
+    if (newIndex < 0) {
+        newIndex = StationImages.length - Math.abs(newIndex);
+    }
+
+    this.setState({
+        index: newIndex
+    });
+  }
+
+  onImageLayout(event) {
+      this.setState({
+          imageWidth: event.nativeEvent.layout.width
+      });
   }
 
   render() {
@@ -58,9 +83,12 @@ export default class App extends Component {
     return (
         <View style={styles.container}>
             <View style={styles.empty} />
-            <ImageBackground source={{url: image.url}} style={styles.image}>
-                <Text style={styles.imageCaption}>{image.caption}</Text>
-            </ImageBackground>
+            <TouchableHighlight onPress={this.nextImage.bind(this)} style={styles.image}>
+              <ImageBackground source={{url: image.url}} style={styles.image}
+                onLayout={this.onImageLayout.bind(this)}>
+                  <Text style={styles.imageCaption}>{image.caption}</Text>
+              </ImageBackground>
+            </TouchableHighlight>
             <View style={styles.empty} />
         </View>
     );
@@ -82,7 +110,7 @@ const styles = StyleSheet.create({
   },
   imageCaption: {
       textAlign: 'center',
-      backgroundColor: 'rgba(100, 100, 100, 0.5)',
+      backgroundColor: 'rgba(100, 100, 100, 0.4)',
       color: 'white',
       width: 320
   },
