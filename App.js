@@ -9,7 +9,6 @@ import {StyleSheet,
         Text, 
         View,
         ImageBackground,
-        AppRegistry,
         TouchableHighlight
         } from 'react-native';
 
@@ -55,7 +54,7 @@ export default class App extends Component {
             imageWidth: null};
   }
 
-  nextImage(event) {
+  newImage(event) {
     const { index, imageWidth } = this.state,
           X = event.nativeEvent.locationX,
           delta = (X < imageWidth/2) ? -1 : +1;
@@ -71,7 +70,7 @@ export default class App extends Component {
     });
   }
 
-  onImageLayout(event) {
+  onNewLayout(event) {
       this.setState({
           imageWidth: event.nativeEvent.layout.width
       });
@@ -83,9 +82,9 @@ export default class App extends Component {
     return (
         <View style={styles.container}>
             <View style={styles.empty} />
-            <TouchableHighlight onPress={this.nextImage.bind(this)} style={styles.image}>
+            <TouchableHighlight onPress={this.newImage.bind(this)} style={styles.image}>
               <ImageBackground source={{url: image.url}} style={styles.image}
-                onLayout={this.onImageLayout.bind(this)}>
+                onLayout={this.onNewLayout.bind(this)}>
                   <Text style={styles.imageCaption}>{image.caption}</Text>
               </ImageBackground>
             </TouchableHighlight>
