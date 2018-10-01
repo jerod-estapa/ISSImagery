@@ -1,6 +1,6 @@
 /**
  * International Space Station Imagery App
- * https://github.com/jerodestapa/ISSImagery
+ * Gistia Software Engineering
  *
  */
 
