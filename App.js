@@ -57,9 +57,9 @@ export default class App extends Component {
   newImage(event) {
     const { index, imageWidth } = this.state,
           X = event.nativeEvent.locationX,
-          delta = (X < imageWidth/2) ? -1 : +1;
+          touchCalc = (X < imageWidth/2) ? -1 : +1;
 
-    let newIndex = (index + delta) % StationImages.length;
+    let newIndex = (index + touchCalc) % StationImages.length;
 
     if (newIndex < 0) {
         newIndex = StationImages.length - Math.abs(newIndex);
